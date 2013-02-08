@@ -1,0 +1,29 @@
+I was never quite happy with the idea of using a database to maintain a blog. While there are many advantages, a great disadvantage is the inconvenience of adding and editing posts. This blog is designed to be minimalist although I do plan at some point to add some form of RSS compatibility (though I hardly know what that might entail). I do not intend to add a comment function, nor do I intend to integrate it with the usual social media such as Facebook and Twitter.
+
+The blog is designed to be minimalist, using few lines of code and having few objects on the page. The goal is to include as few features as possible while maximizing the utility of the tool towards its original purpose, which is sharing your personal ideas.
+
+The blog works as a single .php file, which takes arguments from $_GET to determine which text file to load. It then parses the text file like a scripting language and generates an html page on-the-fly. 
+
+Text files are named x_y.sbf (.shell blog file), where x is a single digit number indicating the category, and y is a multi-digit number to make each post unique. They come in the following format:
+
+Line One Is the Title
+Line Two is the header information - generally a publication date
+Line Three is the footer information - generally a last modified date
+p: starting a line with 'p:' tells the index file to insert a paragraph. text and html tags may go here
+i: starting a line with 'i:' tells the index file to insert an image. First is 3 characters indicating the image id, and then is a string that will be the image alt. Be careful with using special characters in the alt string.
+h: starting a line with 'h:' tells index.php to insert a header. Generally, string should be okay here.
+
+If users were able to submit their own content, I'm sure there would be some easy ways to break the site, and potentially some security holes. But I only intend for site admins to be creating and adding .sbf files, and I don't intend to make them bullet-proof (it seems unneccesary)
+
+There is a c file that in intended to go 1 directory above the index directory of the webpage (to keep it out of reach of blog readers). When run, it looks at guide_index.txt to generate the index page (0_0.sbf), then it looks at all the x_y.sbf files to generate the 'all' meta page (0_1.sbf), and it also looks at all the images to create the 'all images' meta page (0_2.sbf).
+
+Guide_categories.txt associates a name to each category. The first line is associated with category 0, the second with category 1, etc. There is a limit of 10 categories (0-9) due to the way the code works. I like the idea of minimalistically limiting the website to 9 categories, although I think that overall this is a bad design decision. Future versions of the code will probably support more than 10 categories. Category 0 is intended for site-core stuff, like the index page and the meta-page.
+
+guide_index.txt is used to generate 0_0.sbf, which is what the user sees if they just visit index.php. The first 3 lines are the usual .sbf headers, and then the remaining lines point to other .sbf files. Each .sbf file pointed to by guide_index.php will be loaded in full (except for the headers) onto the index page. There is also perhaps a better way create the index page.
+
+Finally, images are uploaded in 2 formats. The first is a 440 pixel wide jpg image, intended to have a small filesize and integrate well with the blog page. This image is named dvp_xxxs.jpg, where xxx is a set of any characters. The second is a full sized lossless png image that loaded if the reader clicks on the jpg. It must be a png, so you'll need to convert any jpgs you want to upload. This is intentional, because many fantastic images on the internet are only available in a lossy format. Forcing the full sized image to be a png is halfway an attempt to spread the use of lossless images, and is halfway an attempt to prevent people from taking a jpg, modifying it, and saving it as a jpg again, increasing the amount of generation-loss in the image. The format for the png image is dvp_xxx.png, where xxx is a set have a small filesize and integrate well with the blog page. I chose the prefix dvp_ because my name is david vorick. I chose this prefix back before I decided to make sh.blog, and I am considering changing the prefix to something like sbi_ for shell blog image.
+
+Now that everything is fully working, my next immediate goal is to create a fully functional example site, containing every standard use of sh.blog.
+
+
+I welcome any contributions but reserve the right to reject any features or modifications that I do not feel contribute to the overall goals of minimalism, ease-of-use, and code-readability. One area that I could use help in is with commenting my code. I find it difficult to make meaninful comments because I don't know which parts of the code will cause other people confusion, and which parts are being overexplained. 

@@ -1,0 +1,15 @@
+Index
+Last Modified: Jan 30, 2013
+
+p: starting a line with 'p:' will insert a paragraph into the blog post. it's just a string and is printed directly to the html, so one can use html tags <b>like this for example</b>. Starting a line with 'i:' will cause an image to be posted. The syntax for the i line: first use 3 characters identifying the image, and then put a string that will be used as the image alt.
+i: 000 This is an example image alt
+i: 001 Tricky image!
+p: when using images, you need to upload 2 copies of each image to the server. The first is a .jpg with the name dvp_xxxs.jpg, where the xxx is replaced by the 3 characters used in the 'i:' statement. The .jpg should be 440 pixels wide so the formatting looks nice. The second is named dvp_xxx.png, so that readers can view and download a full version of the image.
+h: Section disection
+p: starting the line with 'h:' will give parts of the post an extra title. This title is smaller than the overall page title, but larger than the dates.
+p: the index page works by loading a page according to its category and post number (retrived from $_GET). The index page will look at the text file, parse it, and then generate the page. index.php should gracefully handle any bad input from the $_GET variable.
+p: the executable works by looking at two files, one file which it uses to generate the index sbf (0_0.sbf), and one file which it uses to associate category numbers with category names (needed to generate the 'all_pages' file). At some point I hope to figure out an efficeint way to combine these files. Here are the examples:
+p: This is just filler space to demonstrate what something might look like. Lorem ipsum and all of that wonderful stuff.
+p: another paragraph, perhaps introductory stuff.
+h: Split to a new idea!
+p: expand on the title, or just ramble, whatever your style is.

@@ -1,29 +1,29 @@
-I was never quite happy with the idea of using a database to maintain a blog. While there are many advantages, a great disadvantage is the inconvenience of adding and editing posts. This blog is designed to be minimalist although I do plan at some point to add some form of RSS compatibility (though I hardly know what that might entail). I do not intend to add a comment function, nor do I intend to integrate it with the usual social media such as Facebook and Twitter.
+sh.blog (pronounced shell blog) is designed as a blog that you can edit and update from a shell. There is only an index.php page, and then a bunch of text files that serve as a database. There is also an executible file (not public) that will look at the text files and use them to create 3 'meta' pages: the index page, the 'all posts' page, and the 'all images' page. Blog posts are created by text files named x_y.sbf, where x is an int indicating the category number, and y is an int indicating the post number. Following is a sample post:
 
-The blog is designed to be minimalist, using few lines of code and having few objects on the page. The goal is to include as few features as possible while maximizing the utility of the tool towards its original purpose, which is sharing your personal ideas.
+The first line is the title
+Published Feb 07, 2013 (this will appear right under the title)
+Last Modified Feb 09, 2013 (this goes at the end of the blog post)
+p: starting a line with 'p:' will insert a paragraph into the blog post. it's just a string and is printed directly to the html, so one can use html tags <b>like this for example</b>. Starting a line with 'i:' will cause an image to be posted. The syntax for the i line: first use 3 characters identifying the image, and then put a string that will be used as the image alt.
+i: 000 This is an example image alt
+i: 001 Tricky image!
+p: when using images, you need to upload 2 copies of each image to the server. The first is a .jpg with the name dvp_xxxs.jpg, where the xxx is replaced by the 3 characters used in the 'i:' statement. The .jpg should be 440 pixels wide so the formatting looks nice. The second is named dvp_xxx.png, so that readers can view and download a full version of the image.
+h: Section disection
+p: starting the line with 'h:' will give parts of the post an extra title. This title is smaller than the overall page title, but larger than the dates.
+p: the index page works by loading a page according to its category and post number (retrived from $_GET). The index page will look at the text file, parse it, and then generate the page. index.php should gracefully handle any bad input from the $_GET variable.
+p: the executable works by looking at two files, one file which it uses to generate the index sbf (0_0.sbf), and one file which it uses to associate category numbers with category names (needed to generate the 'all_pages' file). At some point I hope to figure out an efficeint way to combine these files. Here are the examples:
 
-The blog works as a single .php file, which takes arguments from $_GET to determine which text file to load. It then parses the text file like a scripting language and generates an html page on-the-fly. 
+This is the title to the Index generator page, it's called guide_index.txt
+Last Modified: Since it's only a string, you can change what it says
+normally this field will be empty for the index page. After this is a series of lines indicating which pages you would like to be previewed on the index page.
+1_0.sbf
+2_0.sbf
 
-Text files are named x_y.sbf (.shell blog file), where x is a single digit number indicating the category, and y is a multi-digit number to make each post unique. They come in the following format:
+this is guide_categories.txt, this is category 0
+this is category '1'
+and so on, up to 9
 
-Line One Is the Title
-Line Two is the header information - generally a publication date
-Line Three is the footer information - generally a last modified date
-p: starting a line with 'p:' tells the index file to insert a paragraph. text and html tags may go here
-i: starting a line with 'i:' tells the index file to insert an image. First is 3 characters indicating the image id, and then is a string that will be the image alt. Be careful with using special characters in the alt string.
-h: starting a line with 'h:' tells index.php to insert a header. Generally, string should be okay here.
+There are a few errors/limitations. First, the category can only be 1 digit, which limits you to a total of 10 categories. I like the idea of being limited to 10 categories, but I think that the next version of sh.blog will adjust to remove this limitation
 
-If users were able to submit their own content, I'm sure there would be some easy ways to break the site, and potentially some security holes. But I only intend for site admins to be creating and adding .sbf files, and I don't intend to make them bullet-proof (it seems unneccesary)
-
-There is a c file that in intended to go 1 directory above the index directory of the webpage (to keep it out of reach of blog readers). When run, it looks at guide_index.txt to generate the index page (0_0.sbf), then it looks at all the x_y.sbf files to generate the 'all' meta page (0_1.sbf), and it also looks at all the images to create the 'all images' meta page (0_2.sbf).
-
-Guide_categories.txt associates a name to each category. The first line is associated with category 0, the second with category 1, etc. There is a limit of 10 categories (0-9) due to the way the code works. I like the idea of minimalistically limiting the website to 9 categories, although I think that overall this is a bad design decision. Future versions of the code will probably support more than 10 categories. Category 0 is intended for site-core stuff, like the index page and the meta-page.
-
-guide_index.txt is used to generate 0_0.sbf, which is what the user sees if they just visit index.php. The first 3 lines are the usual .sbf headers, and then the remaining lines point to other .sbf files. Each .sbf file pointed to by guide_index.php will be loaded in full (except for the headers) onto the index page. There is also perhaps a better way create the index page.
-
-Finally, images are uploaded in 2 formats. The first is a 440 pixel wide jpg image, intended to have a small filesize and integrate well with the blog page. This image is named dvp_xxxs.jpg, where xxx is a set of any characters. The second is a full sized lossless png image that loaded if the reader clicks on the jpg. It must be a png, so you'll need to convert any jpgs you want to upload. This is intentional, because many fantastic images on the internet are only available in a lossy format. Forcing the full sized image to be a png is halfway an attempt to spread the use of lossless images, and is halfway an attempt to prevent people from taking a jpg, modifying it, and saving it as a jpg again, increasing the amount of generation-loss in the image. The format for the png image is dvp_xxx.png, where xxx is a set have a small filesize and integrate well with the blog page. I chose the prefix dvp_ because my name is david vorick. I chose this prefix back before I decided to make sh.blog, and I am considering changing the prefix to something like sbi_ for shell blog image.
-
-Now that everything is fully working, my next immediate goal is to create a fully functional example site, containing every standard use of sh.blog.
-
+The heart of this blog is driven by minimalism. I am currently unhappy with much of it's structure, but it is missing many of the features found in a platform like Wordpress because I do not want such features (example: commenting). I would like to add RSS compatibility at some point.
 
 I welcome any contributions but reserve the right to reject any features or modifications that I do not feel contribute to the overall goals of minimalism, ease-of-use, and code-readability. One area that I could use help in is with commenting my code. I find it difficult to make meaninful comments because I don't know which parts of the code will cause other people confusion, and which parts are being overexplained. 

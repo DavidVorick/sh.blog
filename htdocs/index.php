@@ -1,4 +1,5 @@
 <?php
+//grab the category and page ids, making sure only to accept integers.
 if(isset($_GET['category']))
 	$page_category_id = (int)$_GET['category'];
 else
@@ -9,15 +10,18 @@ if(isset($_GET['index']))
 else
 	$page_index_id = 0;
 
-$hinting_file_title = $page_category_id.'_'.$page_index_id.'.ucf';
+//verify that the file exists, invalid values are replaced by 0_0.sbf
+$hinting_file_title = $page_category_id.'_'.$page_index_id.'.sbf';
 if(!file_exists($hinting_file_title)) 
-	$hinting_file_title = "0_0.ucf";
+	$hinting_file_title = "0_0.sbf";
 
+//open the file and read the header information
 $hinting_file = fopen($hinting_file_title, "r");
 $page_title = trim(fgets($hinting_file));
 $date_1 = trim(fgets($hinting_file));
 $date_2 = trim(fgets($hinting_file));
 
+//load the rest of the file into an array
 $element_count = 0;
 while(!feof($hinting_file)) {
 	$line = trim(fgets($hinting_file));
@@ -26,12 +30,13 @@ while(!feof($hinting_file)) {
 	$element_count++;
 }
 fclose($hinting_file);
+//no space after the end of the php so that the html looks pretty
 ?>
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>David's Place - <?php echo $page_title; ?></title>
-	<base href="http://87.98.216.46/">
+	<title>Example title: <?php echo $page_title; ?></title>
+	<base href="http://87.98.216.46/shblog/">
 	<style>
 		a		{	color:#a5a5a5; }
 		
@@ -56,6 +61,7 @@ fclose($hinting_file);
 	<h4 style="margin-left:20px;margin-bottom:5px;"><?php echo $page_title; ?></h4>
 	<h6><?php echo $date_1; ?></h6>
 	<?php
+	//create the html using the data loaded from the .sbf file
 	for($i=0;$i<$element_count;$i++) {
 		if($hint_types[$i] == 'h') {
 			echo "\n\t";
@@ -83,7 +89,6 @@ fclose($hinting_file);
 		<a href="index.php?index=0&category=0">Home</a><br>
 		<a href="index.php?index=1&category=0">All Pages</a><br>
 		<a href="index.php?index=2&category=0">All Images</a><br>
-		<a href="index.php?index=3&category=0">About sh.blog</a><br>
 	</fieldset>
 </div>
 </body>

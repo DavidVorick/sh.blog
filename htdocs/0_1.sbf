@@ -1,0 +1,7 @@
+All Pages
+Last Modified: Jan 30, 2013
+
+h: this is category 0 (usually site core)
+p: <a href="index.php?category=1&index=0">The first line is the title</a><br>
+h: this is category 1, future lines would extend to category 9
+p: <a href="index.php?category=2&index=0">Another Example File</a><br>

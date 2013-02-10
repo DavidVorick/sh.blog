@@ -111,7 +111,7 @@ int main() {
 				//the else statement checks if the file is an image file
 				//j == 0 insures that each image is only printed once
 				//the prefix dvp is meant to be specific to me (david vorick something, I forget)
-			} else if(filenames[k][0]  == 'd' && j == 0 && filenames[k][7] == '.') {
+			} else if(filenames[k][0]  == 'd' && j == 1 && filenames[k][7] == '.') {
 				snprintf(linebuffer, sizeof(linebuffer), "i: %c%c%c\n", filenames[k][4], filenames[k][5], filenames[k][6]);
 				fputs(linebuffer, images);
 			}

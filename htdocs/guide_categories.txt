@@ -1,2 +1,2 @@
-Purpose
-Stories
+this is category 0 (usually site core)
+this is category 1, future lines would extend to category 9
